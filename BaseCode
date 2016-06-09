@@ -42,9 +42,9 @@ while validOption == False:
                 validOption = True
                 wb=openpyxl.load_workbook('Book1.xlsx')
                 sheet=wb.get_sheet_by_name('Sheet1')
-                print(sheet['B1'].value)
-        
-        
+                for i in range(1, 8, 2):
+                        print(i, sheet.cell(row=i, column=2).value)
+
         elif choice == "P":
                 print("Paste")
                 validOption = True
