@@ -10,3 +10,4 @@ print("Your choice was %s"%choice)
 #Open/Read/Import
 #Send/Paste/Output
 #Select Window
+#Handle Oracle Errors
