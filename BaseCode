@@ -3,6 +3,8 @@ import ctypes
 import os
 import openpyxl
 
+os.chdir("/Users/"+os.getlogin()+"/Desktop")
+
 print("OM Interface Automation Tool v1.0 by Carlos Espejo and James Barett\n")
 
 validOption = False
