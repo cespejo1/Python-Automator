@@ -2,18 +2,34 @@
 
 print("OM Interface Automation Tool v1.0 by Carlos Espejo and James Barett\n")
 
-choice = input("Hello! Please tell us what to do >>> ")
+validOption = False
 
-print("Your choice was %s"%choice)
+while validOption == False:
+    choice = input("Hello! Please tell us what to do >>> ")
 
-if choice == "C":
-    print("Calibrate")
-elif choice == "I":
-    print("Import")
-elif choice == "P":
-    print("Paste")
-elif choice=="S":
-    print("Select Window")
+    print("Your choice was %s"%choice)
+
+    if choice == "C":
+        print("Calibrate")
+        validOption = True
+    elif choice == "I":
+        print("Import")
+        validOption = True
+    elif choice == "P":
+        print("Paste")
+        validOption = True
+    elif choice == "Q":
+        validOption = True
+        exit()
+    else:
+        print("Available options are:")
+        print("C - Calibrate")
+        print("I - Import")
+        print("P - Paste")
+        print("Q - Quit")
+        validOption = False
+
+print("Other Code")
 #Calibrate
 #Open/Read/Import
 #Send/Paste/Output
