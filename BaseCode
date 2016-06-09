@@ -1,0 +1,7 @@
+#OM Interface Automation Tool v1.0 by Carlos Espejo and James Barett 6.9.2016
+
+print("Hello! What is your name?")
+
+name = input("> ")
+
+print("Welcome %s, to the guessing game! \nYou will have 6 tries to guess a number from 1-20. So give it a shot!"%name)
