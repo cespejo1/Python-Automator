@@ -44,16 +44,17 @@ while validOption == False:
                 sheet=wb.get_sheet_by_name('Sheet1')
                 lastRow = sheet.max_row
                 lastColumn = sheet.max_column
-                stringForPrinting = ""
+                #stringForPrinting = ""
+                array=[[0 for c in range(lastColumn)] for r in range(lastRow)]
                 for r in range(1, lastRow+1, 1):
                         for c in range(1, lastColumn+1, 1):
+                                array[r-1][c-1]=str(sheet.cell(row=r,column=c).value)
+                                #print(array[r-1][c-1]) #commented out lines were from testing
                                 if c < lastColumn:
-                                        stringForPrinting = stringForPrinting+str(sheet.cell(row=r,column=c).value)+", "
+                                        #stringForPrinting = stringForPrinting+str(sheet.cell(row=r,column=c).value)+", "
                                 elif c == lastColumn:
-                                        print(stringForPrinting+str(sheet.cell(row=r,column=c).value))
-                                        stringForPrinting = ""
-                                        
-                print("Last Row = "+str(lastRow),"\nLast Column = "+str(lastColumn))
+                                        #print(stringForPrinting+str(sheet.cell(row=r,column=c).value))
+                                        #stringForPrinting = ""
 
         elif choice == "P":
                 print("Paste")
