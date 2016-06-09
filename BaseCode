@@ -1,10 +1,11 @@
 #OM Interface Automation Tool v1.0 by Carlos Espejo and James Barett 6.9.2016
 import ctypes
+import os
+import openpyxl
 
 print("OM Interface Automation Tool v1.0 by Carlos Espejo and James Barett\n")
 
 validOption = False
-
 
 EnumWindows = ctypes.windll.user32.EnumWindows
 EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int))
@@ -21,8 +22,10 @@ def foreach_window(hwnd, lParam):
 		titles.append(buff.value)
 	return True
 	
- 
-	
+def readData:
+	wb=openpyxl.load_workbook('Book1.xlsx')
+	sheet=wb.get_sheet_by_name('Sheet1')
+	sheet['A1'].value
 
 while validOption == False:
     choice = input("Hello! Please tell us what to do >>> ")
@@ -33,6 +36,7 @@ while validOption == False:
         print("Calibrate")
         validOption = True
     elif choice == "I":
+    	readData
         print("Import")
         validOption = True
     elif choice == "P":
