@@ -6,6 +6,14 @@ choice = input("Hello! Please tell us what to do >>> ")
 
 print("Your choice was %s"%choice)
 
+if choice == "C":
+    print("Calibrate")
+elif choice == "I":
+    print("Import")
+elif choice == "P":
+    print("Paste")
+elif choice=="S":
+    print("Select Window")
 #Calibrate
 #Open/Read/Import
 #Send/Paste/Output
