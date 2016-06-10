@@ -79,6 +79,47 @@ while validOption == False:
                 print("W - Windows")
                 validOption = False
 
+#------Function to check if string is a part number------#
+def isPartNumber(text):
+    is6Digits = False
+    is10Digits = False
+    print (len(text))
+
+    #Check if its a 6 digit part number or 10(including "-")
+    if len(text) == 10:
+        is10Digits = True
+    elif len(text) == 6:
+        is6Digits = True
+    else:
+        return False
+
+    #Check requirements for a 10 digit part number
+    if is10Digits:
+        for i in range(0, 6):
+            if not text[i].isdecimal():
+                return False
+        if text[6] != '-':
+            ("worked not 6 dash")
+            return False
+        for i in range(7,10):
+            if not text[i].isdecimal():
+                return False
+    #Check requirements for a 6 digit part number
+    elif is6Digits:
+        for i in range(0, 6):
+            if not text[i].isdecimal():
+                return False
+    return True
+    
+# Test to see if this works
+print('415555-242 is a part number:')
+print(isPartNumber('415555-242'))
+print('7475-21399 is a phone number:')
+print(isPartNumber('747521-300'))
+print('765475 is a phone number:')
+print(isPartNumber('765475'))
+#------End of module------#
+
 #Calibrate
 #Open/Read/Import
 #Send/Paste/Output
