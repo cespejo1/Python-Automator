@@ -3,6 +3,7 @@ import ctypes
 import os
 import openpyxl
 import re
+import pyperclip
 
 os.chdir("/Users/"+os.getlogin()+"/Desktop")
 
@@ -75,6 +76,7 @@ while validOption == False:
                                         array[r-1][c-1]=str(sheet.cell(row=r,column=c).value)
                                         print(array[r-1][c-1])
 
+
         elif choice == "P":
                 print("Paste")
                 validOption = True
@@ -97,6 +99,9 @@ while validOption == False:
                 print("Q - Quit")
                 print("W - Windows")
                 validOption = False
+
+pyperclip.copy(str(array[0][0]))
+#pyperclip.paste()
          
 #------Function to check if string is a part number------# Will be replaced by Regex
 def isPartNumber(text):
