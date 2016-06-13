@@ -148,11 +148,9 @@ def foreach_window(hwnd, lParam):
 
 
 def calibrateEventOnClick():
-    print ("calibrate")
     AltTab(5) #5 is the number of times to tab
 
 def importEventOnClick():
-    print ("import")
     wb=openpyxl.load_workbook(fileLocation)
     sheet=wb.get_sheet_by_name('Sheet1')
     lastRow = sheet.max_row
@@ -162,28 +160,22 @@ def importEventOnClick():
         for c in range(1, lastColumn+1, 1):
             if c == 1 :
                 if partNumRegex.search(sheet.cell(row=r,column=c).value) is None:
-                    print(sheet.cell(row=r,column=c).value+" is not a valid part number")
                     allow=messagebox.askquestion("Warning",sheet.cell(row=r,column=c).value+" is not a valid part number. \nWould you like to allow this part number anyway?", icon="warning")
                                                 
                     if allow == "no":
-                            print("Not Allowed")
                             sheet.cell(row=r,column=lastColumn+1).value = "Not Allowed"
                             wb.save('Book1.xlsx')
                             break
                     elif allow== "yes":
                             array[r-1][c-1]=str(sheet.cell(row=r,column=c).value)
-                            print("Allowed")
-                            print(array[r-1][c-1])
                             sheet.cell(row=r,column=lastColumn+1).value = "Allowed"
                             wb.save('Book1.xlsx')
                                                         
                 else:
                     array[r-1][c-1]=str(sheet.cell(row=r,column=c).value)
-                    print(array[r-1][c-1])
                                                 
             else:
                 array[r-1][c-1]=str(sheet.cell(row=r,column=c).value)
-                print(array[r-1][c-1])
 
     pyperclip.copy(str(array[0][0]))
 
@@ -196,7 +188,6 @@ def quitEventOnClick():
 def windowsEventOnClick():
     titles.clear()
     EnumWindows(EnumWindowsProc(foreach_window), 0)
-    print(titles)
     #exit()
 
 def ok():
