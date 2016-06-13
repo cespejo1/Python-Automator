@@ -50,11 +50,26 @@ while validOption == False:
                 array=[[0 for c in range(lastColumn)] for r in range(lastRow)]
                 for r in range(1, lastRow+1, 1):
                         for c in range(1, lastColumn+1, 1):
-                                array[r-1][c-1]=str(sheet.cell(row=r,column=c).value)
                                 if c == 1 :
-                                        if partNumRegex.search(array[r-1][c-1]) is None:
-                                                print(array[r-1][c-1]+" is not a valid part number")
-
+                                        if partNumRegex.search(sheet.cell(row=r,column=c).value) is None:
+                                                print(sheet.cell(row=r,column=c).value+" is not a valid part number")
+                                                allow=input("Would you like to allow this part anyway? (Y/N): ")
+                                                
+                                                if allow == "N":
+                                                        print("Not Allowed")
+                                                        break
+                                                elif allow== "Y":
+                                                        array[r-1][c-1]=str(sheet.cell(row=r,column=c).value)
+                                                        print("Allowed")
+                                                        print(array[r-1][c-1])
+                                                        
+                                        else:
+                                                array[r-1][c-1]=str(sheet.cell(row=r,column=c).value)
+                                                print(array[r-1][c-1])
+                                                
+                                else:
+                                        array[r-1][c-1]=str(sheet.cell(row=r,column=c).value)
+                                        print(array[r-1][c-1])
 
         elif choice == "P":
                 print("Paste")
