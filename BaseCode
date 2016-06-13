@@ -15,6 +15,8 @@ EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.POINTER(ctypes.c_int)
 GetWindowText = ctypes.windll.user32.GetWindowTextW
 GetWindowTextLength = ctypes.windll.user32.GetWindowTextLengthW
 IsWindowVisible = ctypes.windll.user32.IsWindowVisible
+
+partNumRegex = re.compile(r'\d\d\d\d\d\d-\d\d\d')
  
 titles = []
 def foreach_window(hwnd, lParam):
@@ -45,17 +47,14 @@ while validOption == False:
                 sheet=wb.get_sheet_by_name('Sheet1')
                 lastRow = sheet.max_row
                 lastColumn = sheet.max_column
-                #stringForPrinting = ""
                 array=[[0 for c in range(lastColumn)] for r in range(lastRow)]
                 for r in range(1, lastRow+1, 1):
                         for c in range(1, lastColumn+1, 1):
                                 array[r-1][c-1]=str(sheet.cell(row=r,column=c).value)
-                                #print(array[r-1][c-1]) #commented out lines were from testing
-                                if c < lastColumn:
-                                        #stringForPrinting = stringForPrinting+str(sheet.cell(row=r,column=c).value)+", "
-                                elif c == lastColumn:
-                                        #print(stringForPrinting+str(sheet.cell(row=r,column=c).value))
-                                        #stringForPrinting = ""
+                                if c == 1 :
+                                        if partNumRegex.search(array[r-1][c-1]) is None:
+                                                print(array[r-1][c-1]+" is not a valid part number")
+
 
         elif choice == "P":
                 print("Paste")
@@ -79,14 +78,7 @@ while validOption == False:
                 print("Q - Quit")
                 print("W - Windows")
                 validOption = False
-
-
-
-#Regex object used to search for any pattern in strings. Must import "re"
-partNumRegex = re.compile(r'\d\d\d\d\d\d-\d\d\d')
-pNum10 = partNumRegex.search('The part number is 415555-442, 777-747, 744444, and 222111111')
-print('part numbers found: ' + pNum10.group())
-                
+         
 #------Function to check if string is a part number------# Will be replaced by Regex
 def isPartNumber(text):
     is6Digits = False
@@ -119,13 +111,6 @@ def isPartNumber(text):
                 return False
     return True
     
-# Test to see if this works
-print('415555-242 is a part number:')
-print(isPartNumber('415555-242'))
-print('7475-21399 is a phone number:')
-print(isPartNumber('747521-300'))
-print('765475 is a phone number:')
-print(isPartNumber('765475'))
 #------End of module------#
 
 #Calibrate
