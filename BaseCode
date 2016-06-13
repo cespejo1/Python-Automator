@@ -4,141 +4,101 @@ import os
 import openpyxl
 import re
 import pyperclip
+from tkinter import *
 
 os.chdir("/Users/"+os.getlogin()+"/Desktop")
 
-print("OM Interface Automation Tool v1.0 by Carlos Espejo and James Barett\n")
-
-validOption = False
+root=Tk()
 
 EnumWindows = ctypes.windll.user32.EnumWindows
 EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int))
 GetWindowText = ctypes.windll.user32.GetWindowTextW
 GetWindowTextLength = ctypes.windll.user32.GetWindowTextLengthW
 IsWindowVisible = ctypes.windll.user32.IsWindowVisible
+titles = []
 
 partNumRegex = re.compile(r'\d\d\d\d\d\d-\d\d\d')
- 
-titles = []
+
+variable = StringVar(root)
+variable.set("Window Choices") # default value
 def foreach_window(hwnd, lParam):
-	if IsWindowVisible(hwnd):
-		length = GetWindowTextLength(hwnd)
-		buff = ctypes.create_unicode_buffer(length + 1)
-		GetWindowText(hwnd, buff, length + 1)
-		titles.append(buff.value)
-	return True
-	
-	wb=openpyxl.load_workbook('Book1.xlsx')
-	sheet=wb.get_sheet_by_name('Sheet1')
-	return sheet['A1'].value
-
-while validOption == False:
-        choice = input("Hello! Please tell us what to do >>> ")
-
-        print("Your choice was %s"%choice)
-
-        if choice == "C":
-                print("Calibrate")
-                validOption = True
-        
-        elif choice == "I":
-                print("Import")
-                validOption = True
+                if IsWindowVisible(hwnd):
+                    length = GetWindowTextLength(hwnd)
+                    buff = ctypes.create_unicode_buffer(length + 1)
+                    if GetWindowText(hwnd, buff, length + 1) != 0 :
+                        titles.append(buff.value)
+                return True
+                
                 wb=openpyxl.load_workbook('Book1.xlsx')
                 sheet=wb.get_sheet_by_name('Sheet1')
-                lastRow = sheet.max_row
-                lastColumn = sheet.max_column
-                array=[[0 for c in range(lastColumn)] for r in range(lastRow)]
-                for r in range(1, lastRow+1, 1):
-                        for c in range(1, lastColumn+1, 1):
-                                if c == 1 :
-                                        if partNumRegex.search(sheet.cell(row=r,column=c).value) is None:
-                                                print(sheet.cell(row=r,column=c).value+" is not a valid part number")
-                                                allow=input("Would you like to allow this part anyway? (Y/N): ")
+                return sheet['A1'].value
+
+
+def calibrateEventOnClick():
+    print ("calibrate")
+
+def importEventOnClick():
+    print ("import")
+    wb=openpyxl.load_workbook('Book1.xlsx')
+    sheet=wb.get_sheet_by_name('Sheet1')
+    lastRow = sheet.max_row
+    lastColumn = sheet.max_column
+    array=[[0 for c in range(lastColumn)] for r in range(lastRow)]
+    for r in range(1, lastRow+1, 1):
+        for c in range(1, lastColumn+1, 1):
+            if c == 1 :
+                if partNumRegex.search(sheet.cell(row=r,column=c).value) is None:
+                    print(sheet.cell(row=r,column=c).value+" is not a valid part number")
+                    allow=messagebox.askquestion("Warning",sheet.cell(row=r,column=c).value+" is not a valid part number. \nWould you like to allow this part number anyway?", icon="warning")
                                                 
-                                                if allow == "N":
-                                                        print("Not Allowed")
-                                                        sheet.cell(row=r,column=lastColumn+1).value = "Not Allowed"
-                                                        wb.save('Book1.xlsx')
-                                                        break
-                                                elif allow== "Y":
-                                                        array[r-1][c-1]=str(sheet.cell(row=r,column=c).value)
-                                                        print("Allowed")
-                                                        print(array[r-1][c-1])
-                                                        sheet.cell(row=r,column=lastColumn+1).value = "Allowed"
-                                                        wb.save('Book1.xlsx')
+                    if allow == "no":
+                            print("Not Allowed")
+                            sheet.cell(row=r,column=lastColumn+1).value = "Not Allowed"
+                            wb.save('Book1.xlsx')
+                            break
+                    elif allow== "yes":
+                            array[r-1][c-1]=str(sheet.cell(row=r,column=c).value)
+                            print("Allowed")
+                            print(array[r-1][c-1])
+                            sheet.cell(row=r,column=lastColumn+1).value = "Allowed"
+                            wb.save('Book1.xlsx')
                                                         
-                                        else:
-                                                array[r-1][c-1]=str(sheet.cell(row=r,column=c).value)
-                                                print(array[r-1][c-1])
+                else:
+                    array[r-1][c-1]=str(sheet.cell(row=r,column=c).value)
+                    print(array[r-1][c-1])
                                                 
-                                else:
-                                        array[r-1][c-1]=str(sheet.cell(row=r,column=c).value)
-                                        print(array[r-1][c-1])
+            else:
+                array[r-1][c-1]=str(sheet.cell(row=r,column=c).value)
+                print(array[r-1][c-1])
+
+    pyperclip.copy(str(array[0][0]))
+
+def pasteEventOnClick():
+    print ("paste")
+
+def quitEventOnClick():
+    print ("quit")
+
+def windowsEventOnClick():
+    EnumWindows(EnumWindowsProc(foreach_window), 0)
+    print(titles)
+    #exit()
+
+def ok():
+    print ("value is", variable.get())
+    root.quit()
+
+#button.pack()
+
+Button(root,text="Calibrate",command=calibrateEventOnClick).place(x=10,y=10)
+Button(root,text="Import",command=importEventOnClick).place(x=10,y=40)
+Button(root,text="Paste",command=pasteEventOnClick).place(x=75,y=40)
+Button(root,text="Quit",command=quitEventOnClick).place(x=10,y=70)
+Button(root,text="Windows",command=windowsEventOnClick).place(x=75,y=10)
+Button(root, text="OK", command=ok).place(x=10, y= 160)
+w = OptionMenu(root, variable, "one", "two", "three").place(x=10, y=100)
+#w.pack()
 
 
-        elif choice == "P":
-                print("Paste")
-                validOption = True
-        
-        elif choice == "Q":
-                validOption = True
-                exit()
-        
-        elif choice == "W":
-                validOption = True
-                EnumWindows(EnumWindowsProc(foreach_window), 0)
-                print(titles)
-                exit()
-        
-        else:
-                print("Available options are:")
-                print("C - Calibrate")
-                print("I - Import")
-                print("P - Paste")
-                print("Q - Quit")
-                print("W - Windows")
-                validOption = False
-
-pyperclip.copy(str(array[0][0]))
-#pyperclip.paste()
-         
-#------Function to check if string is a part number------# Will be replaced by Regex
-def isPartNumber(text):
-    is6Digits = False
-    is10Digits = False
-    print (len(text))
-
-    #Check if its a 6 digit part number or 10(including "-")
-    if len(text) == 10:
-        is10Digits = True
-    elif len(text) == 6:
-        is6Digits = True
-    else:
-        return False
-
-    #Check requirements for a 10 digit part number
-    if is10Digits:
-        for i in range(0, 6):
-            if not text[i].isdecimal():
-                return False
-        if text[6] != '-':
-            ("worked not 6 dash")
-            return False
-        for i in range(7,10):
-            if not text[i].isdecimal():
-                return False
-    #Check requirements for a 6 digit part number
-    elif is6Digits:
-        for i in range(0, 6):
-            if not text[i].isdecimal():
-                return False
-    return True
-    
-#------End of module------#
-
-#Calibrate
-#Open/Read/Import
-#Send/Paste/Output
-#Select Window
-#Handle Oracle Errors
+root.geometry("250x250+10+10")
+root.mainloop()
