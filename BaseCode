@@ -2,6 +2,7 @@
 import ctypes
 import os
 import openpyxl
+import re
 
 os.chdir("/Users/"+os.getlogin()+"/Desktop")
 
@@ -79,7 +80,14 @@ while validOption == False:
                 print("W - Windows")
                 validOption = False
 
-#------Function to check if string is a part number------#
+
+
+#Regex object used to search for any pattern in strings. Must import "re"
+partNumRegex = re.compile(r'\d\d\d\d\d\d-\d\d\d')
+pNum10 = partNumRegex.search('The part number is 415555-442, 777-747, 744444, and 222111111')
+print('part numbers found: ' + pNum10.group())
+                
+#------Function to check if string is a part number------# Will be replaced by Regex
 def isPartNumber(text):
     is6Digits = False
     is10Digits = False
