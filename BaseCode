@@ -191,7 +191,7 @@ def pasteEventOnClick():
     print ("paste")
 
 def quitEventOnClick():
-    print ("quit")
+    os._exit(1)    
 
 def windowsEventOnClick():
     titles.clear()
@@ -207,14 +207,14 @@ root.title("Python Oracle Order Automator v1.0")
 button_opt = {'fill': BOTH, 'padx': 5, 'pady': 5}
 
 Label(root, text="Created by James Barett and Carlos Espejo", background="white", foreground="black").pack(**button_opt)
-Button(root,text="Calibrate",command=calibrateEventOnClick).pack(**button_opt)
-Button(root,text="Import",command=importEventOnClick).pack(**button_opt)
-Button(root,text="Paste",command=pasteEventOnClick).pack(**button_opt)
-Button(root,text="Quit",command=quitEventOnClick).pack(**button_opt)
-Button(root,text="Windows",command=windowsEventOnClick).pack(**button_opt)
 Button(root,text="Select File",command=askopenfilename).pack(**button_opt)
+Button(root,text="Import",command=importEventOnClick).pack(**button_opt)
+Button(root,text="Calibrate",command=calibrateEventOnClick).pack(**button_opt)
+Button(root,text="Paste",command=pasteEventOnClick).pack(**button_opt)
+Button(root,text="Windows",command=windowsEventOnClick).pack(**button_opt)
 Button(root,text="OK",command=ok).pack(**button_opt)
 w = OptionMenu(root, variable, "one", "two", "three").pack(**button_opt)
+Button(root,text="Quit",command=quitEventOnClick).pack(**button_opt)
 
 root.configure(background="white")
 root.geometry("350x350")
