@@ -192,9 +192,9 @@ def pasteEventOnClick():
         top_windows = []
         win32gui.EnumWindows(windowEnumerationHandler, top_windows)
     for i in top_windows:
-        if "notepad" in i[1].lower():
+        if "ebsprd" in i[1].lower():
             print (i)
-            pyperclip.copy("Hello there!")
+            pyperclip.copy("806769-006")
             win32gui.SetForegroundWindow(i[0])
             win32gui.ShowWindow(i[0], 5)
             win32gui.ShowWindow(i[0], win32con.SW_MAXIMIZE)
@@ -203,7 +203,19 @@ def pasteEventOnClick():
             PressKey(0x56)
             ReleaseKey(0x11)
             ReleaseKey(0x56)
-            break
+            PressKey(VK_TAB)
+            ReleaseKey(VK_TAB)
+            time.sleep(0.25)
+            pyperclip.copy("1")
+            PressKey(0x11)
+            PressKey(0x56)
+            ReleaseKey(0x11)
+            ReleaseKey(0x56)
+            time.sleep(0.25)
+            PressKey(0x11)
+            PressKey(0x53)
+            ReleaseKey(0x11)
+            ReleaseKey(0x53)
 
 def quitEventOnClick():
     os._exit(1)    
