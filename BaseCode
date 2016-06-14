@@ -7,6 +7,8 @@ import pyperclip
 from tkinter import *
 from ctypes import wintypes
 import time
+import win32gui
+import win32con
 
 user32 = ctypes.WinDLL('user32', use_last_error=True)
 
@@ -179,8 +181,23 @@ def importEventOnClick():
 
     pyperclip.copy(str(array[0][0]))
 
+#Paste code has code to bring a window (in this case notepadd) to front and maximize page
+def windowEnumerationHandler(hwnd, top_windows):
+    top_windows.append((hwnd, win32gui.GetWindowText(hwnd)))
+
 def pasteEventOnClick():
     print ("paste")
+    if __name__ == "__main__":
+        results = []
+        top_windows = []
+        win32gui.EnumWindows(windowEnumerationHandler, top_windows)
+    for i in top_windows:
+        if "notepad" in i[1].lower():
+            print (i)
+            win32gui.SetForegroundWindow(i[0])
+            win32gui.ShowWindow(i[0], 5)
+            win32gui.ShowWindow(i[0], win32con.SW_MAXIMIZE)
+            break
 
 def quitEventOnClick():
     os._exit(1)    
