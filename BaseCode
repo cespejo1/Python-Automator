@@ -95,24 +95,6 @@ def ReleaseKey(hexKeyCode):
                             dwFlags=KEYEVENTF_KEYUP))
     user32.SendInput(1, ctypes.byref(x), ctypes.sizeof(x))
 
-def AltTab(times):
-    """Press Alt+Tab and hold Alt key for 2 seconds
-    in order to see the overlay.
-    """
-    for i in range(1, times+2,1):
-        if i == 1:
-                PressKey(VK_MENU)   # Alt
-                PressKey(VK_TAB)    # Tab
-                ReleaseKey(VK_TAB)  # Tab~
-                time.sleep(0.5)
-        elif i < times+1:
-                PressKey(VK_TAB)
-                ReleaseKey(VK_TAB)
-                time.sleep(0.5)
-        else:
-                PressKey(VK_TAB)
-                ReleaseKey(VK_TAB)
-                ReleaseKey(VK_MENU)
 #---------End Settings for Key Strokes---------#
 
 #---------Begin Filename Getter---------#
@@ -183,10 +165,6 @@ def foreach_window(hwnd, lParam):
                 sheet=wb.get_sheet_by_name('Sheet1')
                 return sheet['A1'].value
 
-
-def calibrateEventOnClick():
-    AltTab(6) #5 is the number of times to tab
-
 def importEventOnClick():
     wb=openpyxl.load_workbook(fileLocation)
     sheet=wb.get_sheet_by_name('Sheet1')
@@ -230,7 +208,7 @@ def pasteEventOnClick():
         top_windows = []
         win32gui.EnumWindows(windowEnumerationHandler, top_windows)
     for i in top_windows:
-        if "ebstst" in i[1].lower():
+        if "ebsprd" in i[1].lower():
             print (i)
             win32gui.SetForegroundWindow(i[0])
             win32gui.ShowWindow(i[0], 5)
@@ -239,14 +217,8 @@ def pasteEventOnClick():
             for r in range(0, lastRow, 1):
                 pasteOrderLines(array[r][0],array[r][1])
             
-
 def quitEventOnClick():
     os._exit(1)    
-
-def windowsEventOnClick():
-    titles.clear()
-    EnumWindows(EnumWindowsProc(foreach_window), 0)
-    #exit()
 
 def ok():
     print ("value is", variable.get())
@@ -258,13 +230,11 @@ button_opt = {'fill': BOTH, 'padx': 5, 'pady': 5}
 Label(root, text="Created by James Barett and Carlos Espejo", background="white", foreground="black").pack(**button_opt)
 Button(root,text="Select File",command=askopenfilename).pack(**button_opt)
 Button(root,text="Import",command=importEventOnClick).pack(**button_opt)
-Button(root,text="Calibrate",command=calibrateEventOnClick).pack(**button_opt)
 Button(root,text="Paste",command=pasteEventOnClick).pack(**button_opt)
-Button(root,text="Windows",command=windowsEventOnClick).pack(**button_opt)
 Button(root,text="OK",command=ok).pack(**button_opt)
 w = OptionMenu(root, variable, "one", "two", "three").pack(**button_opt)
 Button(root,text="Quit",command=quitEventOnClick).pack(**button_opt)
 
 root.configure(background="white")
-root.geometry("350x350")
+root.geometry("350x300")
 root.mainloop()
