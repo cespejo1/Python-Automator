@@ -148,7 +148,7 @@ def foreach_window(hwnd, lParam):
 
 
 def calibrateEventOnClick():
-    AltTab(5) #5 is the number of times to tab
+    AltTab(6) #5 is the number of times to tab
 
 def importEventOnClick():
     wb=openpyxl.load_workbook(fileLocation)
