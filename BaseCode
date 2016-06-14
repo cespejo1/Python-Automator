@@ -194,9 +194,15 @@ def pasteEventOnClick():
     for i in top_windows:
         if "notepad" in i[1].lower():
             print (i)
+            pyperclip.copy("Hello there!")
             win32gui.SetForegroundWindow(i[0])
             win32gui.ShowWindow(i[0], 5)
             win32gui.ShowWindow(i[0], win32con.SW_MAXIMIZE)
+            time.sleep(0.25)
+            PressKey(0x11)
+            PressKey(0x56)
+            ReleaseKey(0x11)
+            ReleaseKey(0x56)
             break
 
 def quitEventOnClick():
